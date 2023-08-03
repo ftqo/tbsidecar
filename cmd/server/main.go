@@ -22,6 +22,7 @@ type sidecarServer struct {
 var (
 	clusterID      = flag.Int("clusterID", 0, "cluster ID")
 	concurrencyMax = flag.Int("concurrencyMax", 32, "max concurrency")
+	port           = flag.Int("port", 8081, "port")
 )
 
 func main() {
@@ -39,6 +40,8 @@ func main() {
 	r.Get("/accounts", s.lookupAccounts)
 	r.Post("/transfers", s.createTransfers)
 	r.Get("/transfers", s.lookupTransfers)
+
+	http.ListenAndServe(fmt.Sprintf(":%d", *port), r)
 }
 
 func (s sidecarServer) createAccounts(w http.ResponseWriter, r *http.Request) {

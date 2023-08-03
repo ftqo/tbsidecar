@@ -124,84 +124,84 @@ type TransferEventResult struct {
 type CreateAccountResult uint32
 
 const (
-	AccountOK                          CreateAccountResult = 0
-	AccountLinkedEventFailed           CreateAccountResult = 1
-	AccountLinkedEventChainOpen        CreateAccountResult = 2
-	AccountTimestampMustBeZero         CreateAccountResult = 3
-	AccountReservedFlag                CreateAccountResult = 4
-	AccountReservedField               CreateAccountResult = 5
-	AccountIDMustNotBeZero             CreateAccountResult = 6
-	AccountIDMustNotBeIntMax           CreateAccountResult = 7
-	AccountFlagsAreMutuallyExclusive   CreateAccountResult = 8
-	AccountLedgerMustNotBeZero         CreateAccountResult = 9
-	AccountCodeMustNotBeZero           CreateAccountResult = 10
-	AccountDebitsPendingMustBeZero     CreateAccountResult = 11
-	AccountDebitsPostedMustBeZero      CreateAccountResult = 12
-	AccountCreditsPendingMustBeZero    CreateAccountResult = 13
-	AccountCreditsPostedMustBeZero     CreateAccountResult = 14
-	AccountExistsWithDifferentFlags    CreateAccountResult = 15
-	AccountExistsWithDifferentUserData CreateAccountResult = 16
-	AccountExistsWithDifferentLedger   CreateAccountResult = 17
-	AccountExistsWithDifferentCode     CreateAccountResult = 18
-	AccountExists                      CreateAccountResult = 19
+	AccountOK CreateAccountResult = iota
+	AccountLinkedEventFailed
+	AccountLinkedEventChainOpen
+	AccountTimestampMustBeZero
+	AccountReservedFlag
+	AccountReservedField
+	AccountIDMustNotBeZero
+	AccountIDMustNotBeIntMax
+	AccountFlagsAreMutuallyExclusive
+	AccountLedgerMustNotBeZero
+	AccountCodeMustNotBeZero
+	AccountDebitsPendingMustBeZero
+	AccountDebitsPostedMustBeZero
+	AccountCreditsPendingMustBeZero
+	AccountCreditsPostedMustBeZero
+	AccountExistsWithDifferentFlags
+	AccountExistsWithDifferentUserData
+	AccountExistsWithDifferentLedger
+	AccountExistsWithDifferentCode
+	AccountExists
 )
 
 type CreateTransferResult uint32
 
 const (
-	TransferOK                                         CreateTransferResult = 0
-	TransferLinkedEventFailed                          CreateTransferResult = 1
-	TransferLinkedEventChainOpen                       CreateTransferResult = 2
-	TransferTimestampMustBeZero                        CreateTransferResult = 3
-	TransferReservedFlag                               CreateTransferResult = 4
-	TransferReservedField                              CreateTransferResult = 5
-	TransferIDMustNotBeZero                            CreateTransferResult = 6
-	TransferIDMustNotBeIntMax                          CreateTransferResult = 7
-	TransferFlagsAreMutuallyExclusive                  CreateTransferResult = 8
-	TransferDebitAccountIDMustNotBeZero                CreateTransferResult = 9
-	TransferDebitAccountIDMustNotBeIntMax              CreateTransferResult = 10
-	TransferCreditAccountIDMustNotBeZero               CreateTransferResult = 11
-	TransferCreditAccountIDMustNotBeIntMax             CreateTransferResult = 12
-	TransferAccountsMustBeDifferent                    CreateTransferResult = 13
-	TransferPendingIDMustBeZero                        CreateTransferResult = 14
-	TransferPendingIDMustNotBeZero                     CreateTransferResult = 15
-	TransferPendingIDMustNotBeIntMax                   CreateTransferResult = 16
-	TransferPendingIDMustBeDifferent                   CreateTransferResult = 17
-	TransferTimeoutReservedForPendingTransfer          CreateTransferResult = 18
-	TransferLedgerMustNotBeZero                        CreateTransferResult = 19
-	TransferCodeMustNotBeZero                          CreateTransferResult = 20
-	TransferAmountMustNotBeZero                        CreateTransferResult = 21
-	TransferDebitAccountNotFound                       CreateTransferResult = 22
-	TransferCreditAccountNotFound                      CreateTransferResult = 23
-	TransferAccountsMustHaveTheSameLedger              CreateTransferResult = 24
-	TransferTransferMustHaveTheSameLedgerAsAccounts    CreateTransferResult = 25
-	TransferPendingTransferNotFound                    CreateTransferResult = 26
-	TransferPendingTransferNotPending                  CreateTransferResult = 27
-	TransferPendingTransferHasDifferentDebitAccountID  CreateTransferResult = 28
-	TransferPendingTransferHasDifferentCreditAccountID CreateTransferResult = 29
-	TransferPendingTransferHasDifferentLedger          CreateTransferResult = 30
-	TransferPendingTransferHasDifferentCode            CreateTransferResult = 31
-	TransferExceedsPendingTransferAmount               CreateTransferResult = 32
-	TransferPendingTransferHasDifferentAmount          CreateTransferResult = 33
-	TransferPendingTransferAlreadyPosted               CreateTransferResult = 34
-	TransferPendingTransferAlreadyVoided               CreateTransferResult = 35
-	TransferPendingTransferExpired                     CreateTransferResult = 36
-	TransferExistsWithDifferentFlags                   CreateTransferResult = 37
-	TransferExistsWithDifferentDebitAccountID          CreateTransferResult = 38
-	TransferExistsWithDifferentCreditAccountID         CreateTransferResult = 39
-	TransferExistsWithDifferentPendingID               CreateTransferResult = 40
-	TransferExistsWithDifferentUserData                CreateTransferResult = 41
-	TransferExistsWithDifferentTimeout                 CreateTransferResult = 42
-	TransferExistsWithDifferentCode                    CreateTransferResult = 43
-	TransferExistsWithDifferentAmount                  CreateTransferResult = 44
-	TransferExists                                     CreateTransferResult = 45
-	TransferOverflowsDebitsPending                     CreateTransferResult = 46
-	TransferOverflowsCreditsPending                    CreateTransferResult = 47
-	TransferOverflowsDebitsPosted                      CreateTransferResult = 48
-	TransferOverflowsCreditsPosted                     CreateTransferResult = 49
-	TransferOverflowsDebits                            CreateTransferResult = 50
-	TransferOverflowsCredits                           CreateTransferResult = 51
-	TransferOverflowsTimeout                           CreateTransferResult = 52
-	TransferExceedsCredits                             CreateTransferResult = 53
-	TransferExceedsDebits                              CreateTransferResult = 54
+	TransferOK CreateTransferResult = iota
+	TransferLinkedEventFailed
+	TransferLinkedEventChainOpen
+	TransferTimestampMustBeZero
+	TransferReservedFlag
+	TransferReservedField
+	TransferIDMustNotBeZero
+	TransferIDMustNotBeIntMax
+	TransferFlagsAreMutuallyExclusive
+	TransferDebitAccountIDMustNotBeZero
+	TransferDebitAccountIDMustNotBeIntMax
+	TransferCreditAccountIDMustNotBeZero
+	TransferCreditAccountIDMustNotBeIntMax
+	TransferAccountsMustBeDifferent
+	TransferPendingIDMustBeZero
+	TransferPendingIDMustNotBeZero
+	TransferPendingIDMustNotBeIntMax
+	TransferPendingIDMustBeDifferent
+	TransferTimeoutReservedForPendingTransfer
+	TransferLedgerMustNotBeZero
+	TransferCodeMustNotBeZero
+	TransferAmountMustNotBeZero
+	TransferDebitAccountNotFound
+	TransferCreditAccountNotFound
+	TransferAccountsMustHaveTheSameLedger
+	TransferTransferMustHaveTheSameLedgerAsAccounts
+	TransferPendingTransferNotFound
+	TransferPendingTransferNotPending
+	TransferPendingTransferHasDifferentDebitAccountID
+	TransferPendingTransferHasDifferentCreditAccountID
+	TransferPendingTransferHasDifferentLedger
+	TransferPendingTransferHasDifferentCode
+	TransferExceedsPendingTransferAmount
+	TransferPendingTransferHasDifferentAmount
+	TransferPendingTransferAlreadyPosted
+	TransferPendingTransferAlreadyVoided
+	TransferPendingTransferExpired
+	TransferExistsWithDifferentFlags
+	TransferExistsWithDifferentDebitAccountID
+	TransferExistsWithDifferentCreditAccountID
+	TransferExistsWithDifferentPendingID
+	TransferExistsWithDifferentUserData
+	TransferExistsWithDifferentTimeout
+	TransferExistsWithDifferentCode
+	TransferExistsWithDifferentAmount
+	TransferExists
+	TransferOverflowsDebitsPending
+	TransferOverflowsCreditsPending
+	TransferOverflowsDebitsPosted
+	TransferOverflowsCreditsPosted
+	TransferOverflowsDebits
+	TransferOverflowsCredits
+	TransferOverflowsTimeout
+	TransferExceedsCredits
+	TransferExceedsDebits
 )

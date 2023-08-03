@@ -31,15 +31,16 @@ func main() {
 	c, err := tb.NewClient(uint32(*clusterID), flag.Args(), uint(*concurrencyMax))
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "failed to create new tigerbeetle client: %v", err)
+		return
 	}
 
 	s := sidecarServer{tbClient: c}
 	r := chi.NewRouter()
 
 	r.Post("/accounts", s.createAccounts)
-	r.Get("/accounts", s.lookupAccounts)
+	r.Get("/accounts/{accountID}", s.lookupAccount)
 	r.Post("/transfers", s.createTransfers)
-	r.Get("/transfers", s.lookupTransfers)
+	r.Get("/transfers/{transferID}", s.lookupTransfer)
 
 	http.ListenAndServe(fmt.Sprintf(":%d", *port), r)
 }
@@ -155,22 +156,13 @@ func (s sidecarServer) createTransfers(w http.ResponseWriter, r *http.Request) {
 	w.Write(buf.Bytes())
 }
 
-func (s sidecarServer) lookupAccounts(w http.ResponseWriter, r *http.Request) {
+func (s sidecarServer) lookupAccount(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
-	var accountIDs [][16]byte
-	err := json.NewDecoder(r.Body).Decode(&accountIDs)
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "failed to decode lookup_accounts json body: %v", err)
-		w.WriteHeader(http.StatusBadRequest)
-		return
-	}
+	accountIDstr := chi.URLParam(r, "accountID")
+	accountID := tbsidecar.StringToBytes(accountIDstr)
+	tbAccountID := tbt.BytesToUint128(accountID)
 
-	tbAccountIDs := make([]tbt.Uint128, 0, len(accountIDs))
-	for _, a := range accountIDs {
-		tbAccountIDs = append(tbAccountIDs, tbt.BytesToUint128(a))
-	}
-
-	results, err := s.tbClient.LookupAccounts(tbAccountIDs)
+	results, err := s.tbClient.LookupAccounts([]tbt.Uint128{tbAccountID})
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "failed to make lookup_accounts request: %v", err)
 		w.WriteHeader(http.StatusInternalServerError)
@@ -180,7 +172,7 @@ func (s sidecarServer) lookupAccounts(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	var buf bytes.Buffer
 
-	err = json.NewEncoder(&buf).Encode(results)
+	err = json.NewEncoder(&buf).Encode(results[0])
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "failed to encode lookup_accounts results: %v", err)
 		w.WriteHeader(http.StatusInternalServerError)
@@ -190,24 +182,15 @@ func (s sidecarServer) lookupAccounts(w http.ResponseWriter, r *http.Request) {
 	w.Write(buf.Bytes())
 }
 
-func (s sidecarServer) lookupTransfers(w http.ResponseWriter, r *http.Request) {
+func (s sidecarServer) lookupTransfer(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
-	var transferIDs [][16]byte
-	err := json.NewDecoder(r.Body).Decode(&transferIDs)
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "failed to decode lookup_accounts json body: %v", err)
-		w.WriteHeader(http.StatusBadRequest)
-		return
-	}
+	transferIDstr := chi.URLParam(r, "accountID")
+	transferID := tbsidecar.StringToBytes(transferIDstr)
+	tbTransferID := tbt.BytesToUint128(transferID)
 
-	tbTransferIDs := make([]tbt.Uint128, 0, len(transferIDs))
-	for _, t := range transferIDs {
-		tbTransferIDs = append(tbTransferIDs, tbt.BytesToUint128(t))
-	}
-
-	results, err := s.tbClient.LookupTransfers(tbTransferIDs)
+	results, err := s.tbClient.LookupTransfers([]tbt.Uint128{tbTransferID})
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "failed to make lookup_accounts request: %v", err)
+		fmt.Fprintf(os.Stderr, "failed to make lookup_account request: %v", err)
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
@@ -215,9 +198,9 @@ func (s sidecarServer) lookupTransfers(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	var buf bytes.Buffer
 
-	err = json.NewEncoder(&buf).Encode(results)
+	err = json.NewEncoder(&buf).Encode(results[0])
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "failed to encode lookup_transfers results: %v", err)
+		fmt.Fprintf(os.Stderr, "failed to encode lookup_transfer results: %v", err)
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}

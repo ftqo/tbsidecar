@@ -3,13 +3,13 @@ package tbsidecar
 import "encoding/hex"
 
 func BytesToString(bs [16]byte) string {
-	newBs := make([]byte, 0, 16)
+	newBs := make([]byte, 16)
 	hex.Encode(newBs, bs[:])
 	return string(newBs)
 }
 
 func StringToBytes(s string) [16]byte {
-	newBs := make([]byte, 0, 16)
+	newBs := make([]byte, 16)
 	hex.Decode(newBs, []byte(s))
 	return [16]byte(newBs)
 }

@@ -1,17 +1,28 @@
 package tbsidecar
 
-import "encoding/hex"
+import (
+	"encoding/hex"
+	"errors"
+)
 
 func BytesToString(bs [16]byte) string {
-	newBs := make([]byte, 16)
+	newBs := make([]byte, 32) // twice the size for hex encoding
 	hex.Encode(newBs, bs[:])
 	return string(newBs)
 }
 
-func StringToBytes(s string) [16]byte {
+func StringToBytes(s string) ([16]byte, error) {
+	if len(s) != 32 {
+		return [16]byte{}, errors.New("input string is not the correct length for hex decoding")
+	}
 	newBs := make([]byte, 16)
-	hex.Decode(newBs, []byte(s))
-	return [16]byte(newBs)
+	_, err := hex.Decode(newBs, []byte(s))
+	if err != nil {
+		return [16]byte{}, errors.New("failed to decode string into bytes")
+	}
+	var arr [16]byte
+	copy(arr[:], newBs)
+	return arr, nil
 }
 
 type AccountFlags struct {

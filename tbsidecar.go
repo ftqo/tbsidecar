@@ -107,6 +107,10 @@ func (f TransferFlags) ToUint16() uint16 {
 	return ret
 }
 
+type Accounts struct {
+	A []Account `json:"accounts"`
+}
+
 type Account struct {
 	ID             [16]byte  `json:"id"`
 	UserData       [16]byte  `json:"userData"`
@@ -119,6 +123,10 @@ type Account struct {
 	CreditsPending uint64    `json:"creditsPending"`
 	CreditsPosted  uint64    `json:"creditsPosted"`
 	Timestamp      uint64    `json:"timestamp"`
+}
+
+type Transfers struct {
+	T []Transfer `json:"transfers"`
 }
 
 type Transfer struct {
@@ -136,9 +144,17 @@ type Transfer struct {
 	Timestamp       uint64   `json:"timestamp"`
 }
 
+type AccountEventResults struct {
+	A []AccountEventResult `json:"accountEventResults"`
+}
+
 type AccountEventResult struct {
 	Index  uint32              `json:"index"`
 	Result CreateAccountResult `json:"result"`
+}
+
+type TransferEventResults struct {
+	A []TransferEventResult `json:"transferEventResults"`
 }
 
 type TransferEventResult struct {

@@ -145,7 +145,7 @@ type Transfer struct {
 }
 
 type AccountEventResults struct {
-	A []AccountEventResult `json:"accountEventResults"`
+	AE []AccountEventResult `json:"accountEventResults"`
 }
 
 type AccountEventResult struct {
@@ -154,7 +154,7 @@ type AccountEventResult struct {
 }
 
 type TransferEventResults struct {
-	A []TransferEventResult `json:"transferEventResults"`
+	TE []TransferEventResult `json:"transferEventResults"`
 }
 
 type TransferEventResult struct {

@@ -121,7 +121,7 @@ type Account struct {
 
 func (a Account) String() string {
 	return fmt.Sprintf(
-		"id: %s\ndebits_pending: %s\ndebits_posted: %s\ncredits_pending: %s\ncredits_posted: %s\nledger: %d\nflags: %d",
+		"id: %s, debits_pending: %s, debits_posted: %s, credits_pending: %s, credits_posted: %s, ledger: %d, flags: %d",
 		uuid.UUID(a.ID),
 		BytesToString(a.DebitsPending),
 		BytesToString(a.DebitsPosted),
@@ -162,7 +162,7 @@ type Transfer struct {
 
 func (t Transfer) String() string {
 	return fmt.Sprintf(
-		"id: %s\ndebit_account: %s\ncredit_account: %s\nledger: %d\namount: %s",
+		"id: %s, debit_account: %s, credit_account: %s, ledger: %d, amount: %s",
 		uuid.UUID(t.ID),
 		uuid.UUID(t.DebitAccountID),
 		uuid.UUID(t.CreditAccountID),

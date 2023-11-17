@@ -31,7 +31,7 @@ func HexStringToBytes(s string) ([16]byte, error) {
 }
 
 func BytesToString(bs [16]byte) string {
-	var bsa []byte
+	var bsa []byte = make([]byte, len(bs))
 	copy(bsa, bs[:])
 	return uint128.FromBytes(bsa).String()
 }

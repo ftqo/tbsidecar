@@ -7,15 +7,16 @@ import (
 	"strconv"
 
 	"github.com/google/uuid"
+	"lukechampine.com/uint128"
 )
 
-func BytesToString(bs [16]byte) string {
+func BytesToHexString(bs [16]byte) string {
 	newBs := make([]byte, 32) // twice the size for hex encoding
 	hex.Encode(newBs, bs[:])
 	return string(newBs)
 }
 
-func StringToBytes(s string) ([16]byte, error) {
+func HexStringToBytes(s string) ([16]byte, error) {
 	if len(s) != 32 {
 		return [16]byte{}, errors.New("input string is not the correct length for hex decoding")
 	}
@@ -27,6 +28,12 @@ func StringToBytes(s string) ([16]byte, error) {
 	var arr [16]byte
 	copy(arr[:], newBs)
 	return arr, nil
+}
+
+func BytesToString(bs [16]byte) string {
+	var bsa []byte
+	copy(bsa, bs[:])
+	return uint128.FromBytes(bsa).String()
 }
 
 type AccountFlags struct {
@@ -151,6 +158,17 @@ type Transfer struct {
 	Code            uint16
 	Flags           uint16
 	Timestamp       uint64
+}
+
+func (t Transfer) String() string {
+	return fmt.Sprintf(
+		"id: %s\ndebit_account: %s\ncredit_account: %s\nledger: %d\namount: %d",
+		uuid.UUID(t.ID),
+		uuid.UUID(t.DebitAccountID),
+		uuid.UUID(t.CreditAccountID),
+		t.Ledger,
+		t.Amount,
+	)
 }
 
 func (o Transfer) TransferFlags() TransferFlags {

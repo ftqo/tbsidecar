@@ -89,6 +89,10 @@ func (f TransferFlags) ToUint16() uint16 {
 	return ret
 }
 
+type Accounts struct {
+	Accounts []Account
+}
+
 type Account struct {
 	ID             [16]byte
 	DebitsPending  [16]byte
@@ -111,6 +115,10 @@ func (o Account) AccountFlags() AccountFlags {
 	f.DebitsMustNotExceedCredits = ((o.Flags >> 1) & 0x1) == 1
 	f.CreditsMustNotExceedDebits = ((o.Flags >> 2) & 0x1) == 1
 	return f
+}
+
+type Transfers struct {
+	Transfers []Transfer
 }
 
 type Transfer struct {

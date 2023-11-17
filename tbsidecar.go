@@ -3,7 +3,10 @@ package tbsidecar
 import (
 	"encoding/hex"
 	"errors"
+	"fmt"
 	"strconv"
+
+	"github.com/google/uuid"
 )
 
 func BytesToString(bs [16]byte) string {
@@ -107,6 +110,19 @@ type Account struct {
 	Code           uint16
 	Flags          uint16
 	Timestamp      uint64
+}
+
+func (a Account) String() string {
+	return fmt.Sprintf(
+		"id: %s\ndebits_pending: %s\ndebits_posted: %s\ncredits_pending: %s\ncredits_posted: %s\nledger: %d\nflags: %d",
+		uuid.UUID(a.ID),
+		BytesToString(a.DebitsPending),
+		BytesToString(a.DebitsPosted),
+		BytesToString(a.CreditsPending),
+		BytesToString(a.CreditsPosted),
+		a.Ledger,
+		a.Flags,
+	)
 }
 
 func (o Account) AccountFlags() AccountFlags {

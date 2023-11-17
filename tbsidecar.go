@@ -162,10 +162,14 @@ type Transfer struct {
 
 func (t Transfer) String() string {
 	return fmt.Sprintf(
-		"id: %s, debit_account: %s, credit_account: %s, ledger: %d, amount: %s",
+		"id: %s, debit_account: %s, credit_account: %s, pending: %t, pending_id: %s, void: %t, post: %t, ledger: %d, amount: %s",
 		uuid.UUID(t.ID),
 		uuid.UUID(t.DebitAccountID),
 		uuid.UUID(t.CreditAccountID),
+		t.TransferFlags().Pending,
+		uuid.UUID(t.PendingID),
+		t.TransferFlags().VoidPendingTransfer,
+		t.TransferFlags().PostPendingTransfer,
 		t.Ledger,
 		BytesToString(t.Amount),
 	)

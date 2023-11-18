@@ -6,8 +6,8 @@ import (
 	"fmt"
 	"strconv"
 
+	"github.com/ftqo/uint128"
 	"github.com/google/uuid"
-	"lukechampine.com/uint128"
 )
 
 func BytesToHexString(bs [16]byte) string {
@@ -31,9 +31,8 @@ func HexStringToBytes(s string) ([16]byte, error) {
 }
 
 func BytesToString(bs [16]byte) string {
-	var bsa []byte = make([]byte, len(bs))
-	copy(bsa, bs[:])
-	return uint128.FromBytes(bsa).String()
+	u, _ := uint128.FromBytes(bs[:])
+	return u.String()
 }
 
 type AccountFlags struct {
